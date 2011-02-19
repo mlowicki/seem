@@ -7,7 +7,7 @@ This tool is designed to make work with 3rd party APIs much more easier. It's re
 
 * automate tests,
 
-* creating test case data for task dev is working on and use it without need to connecting to external server and preparing test data (like test tweets on Twitter). This can be problematic if we want to reproduce bugs filed by users or special retweet or tweet with mentions is needed (sometimes it requires many Twitter accounts). Such data can be used then for automatic tests.
+* creating test data for task dev is working on and use it without need to connecting to remote server and preparing there fake data. This can be problematic if we want to reproduce complicated bug filed by users and it requires creating many user accounts and dummy tweets, posts, photos etc.
 
 How is works
 ------------
