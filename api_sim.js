@@ -74,7 +74,8 @@ App.prototype = {
                 actionConfig.method,
                 actionConfig.parameters,
                 actionConfig.responseFile,
-                actionConfig.contentType
+                actionConfig.contentType,
+                actionConfig.delay || {}
             ));
         }
     },
@@ -108,7 +109,7 @@ App.prototype = {
     }
 };
 
-function Action(url, method, parameters, responseFile, contentType) {
+function Action(url, method, parameters, responseFile, contentType, delay) {
     if(typeof url !== 'string') { throw new Error('url must be a string'); }
     this.url = url;
 
@@ -131,10 +132,27 @@ function Action(url, method, parameters, responseFile, contentType) {
         throw new Error('contentType must be a string');
     }
     this.contentType = contentType;
+
+    if(!(delay instanceof Object)) {
+        throw new Error('delay must be an object');
+    }
+    this.delay = delay;
 }
 
 Action.prototype = {
     constructor: Action,
+    /**
+     * Returns delay of the action in milliseconds.
+     * @method getDelayInMilliseconds
+     * @return {Number}
+     */
+    getDelayInMilliseconds: function() {
+        var delay = 0;
+
+        delay += (this.delay.seconds * 1000) || 0;
+
+        return delay;
+    },
     match: function(url, method, parameters) {
         if(this.url !== url || this.method !== method) {
             return false;
@@ -176,8 +194,18 @@ http.createServer(function(req, res) {
         res.end('Cannot find action');
         return;
     }   
-    
-    res.writeHead(200, {'Content-Type': action.contentType});
-    res.end(fs.readFileSync(app.path2app + '/' + action.responseFile));
+
+    var delay = action.getDelayInMilliseconds();
+
+    if(delay) {
+        setTimeout(function() {
+            res.writeHead(200, {'Content-Type': action.contentType});
+            res.end(fs.readFileSync(app.path2app + '/' + action.responseFile));
+        }, delay);
+    }
+    else {
+        res.writeHead(200, {'Content-Type': action.contentType});
+        res.end(fs.readFileSync(app.path2app + '/' + action.responseFile));
+    }
 }).listen(8765, '127.0.0.1');
  

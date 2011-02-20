@@ -4,6 +4,7 @@
         {
             "url": "users/show.json",
             "method": "GET",
+            "delay": { "seconds": 4 },
             "parameters": { "screen_name": "mlowicki" },
             "responseFile": "users|show.json?screen_name=mlowicki.json",
             "contentType": "text/plain"
