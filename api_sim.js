@@ -75,6 +75,7 @@ App.prototype = {
                 actionConfig.parameters,
                 actionConfig.responseFile,
                 actionConfig.contentType,
+                actionConfig.statusCode || 200,
                 actionConfig.delay || {}
             ));
         }
@@ -109,7 +110,9 @@ App.prototype = {
     }
 };
 
-function Action(url, method, parameters, responseFile, contentType, delay) {
+function Action(url, method, parameters, responseFile, contentType, statusCode,
+        delay) {
+
     if(typeof url !== 'string') { throw new Error('url must be a string'); }
     this.url = url;
 
@@ -132,6 +135,11 @@ function Action(url, method, parameters, responseFile, contentType, delay) {
         throw new Error('contentType must be a string');
     }
     this.contentType = contentType;
+
+    if(typeof statusCode !== 'number') {
+        throw new Error('statusCode must be a number');
+    }
+    this.statusCode = statusCode;
 
     if(!(delay instanceof Object)) {
         throw new Error('delay must be an object');
@@ -199,13 +207,16 @@ http.createServer(function(req, res) {
 
     if(delay) {
         setTimeout(function() {
-            res.writeHead(200, {'Content-Type': action.contentType});
+            res.writeHead(action.statusCode, {
+                'Content-Type': action.contentType });
+
             res.end(fs.readFileSync(app.path2app + '/' + action.responseFile));
         }, delay);
     }
     else {
-        res.writeHead(200, {'Content-Type': action.contentType});
+        res.writeHead(action.statusCode, {
+            'Content-Type': action.contentType });
+
         res.end(fs.readFileSync(app.path2app + '/' + action.responseFile));
     }
 }).listen(8765, '127.0.0.1');
- 

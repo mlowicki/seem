@@ -6,8 +6,17 @@
             "method": "GET",
             "delay": { "seconds": 4 },
             "parameters": { "screen_name": "mlowicki" },
+            "statusCode": 200,
             "responseFile": "users|show.json?screen_name=mlowicki.json",
             "contentType": "text/plain"
+        },
+        {
+            "url": "users/show.json",
+            "method": "GET",
+            "parameters": { "screen_name": "fake" },
+            "statusCode": 404,
+            "responseFile": "users|show.json?screen_name=fake.json",
+            "contentType": "text/plain; charset=utf-8"
         }
     ]
 }
