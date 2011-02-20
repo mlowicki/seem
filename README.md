@@ -1,7 +1,7 @@
-Node-API-Simulator
-==================
+SEEM (services emulator)
+===================
 
-This tool is designed to make work with 3rd party APIs much more easier. It's responsible for simulating API used by application and it's launched on developer's machine so network connection is not required. It can be used for:
+This tool is designed to make work with 3rd party APIs much more pleasant. It's responsible for emulating API used by application and it's launched on developer's machine so network connection is not required. It can be used for:
 
 * testing behaviour of the app while unusual circumstances like long waiting for response, server errors etc,
 
